@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include <SFML/Graphics.hpp>
@@ -14,6 +15,8 @@ public:
 	void handleInput(float dt);
 	void update(float dt);
 	void render();
+	sf::RectangleShape rect;
+	float speed;
 
 private:
 	// Default functions for rendering to the screen.

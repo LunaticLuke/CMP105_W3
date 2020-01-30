@@ -6,7 +6,9 @@ Level::Level(sf::RenderWindow* hwnd, Input* in)
 	input = in;
 
 	// initialise game objects
-
+	rect.setFillColor(sf::Color::Blue);
+	rect.setSize(sf::Vector2f(15,15));
+	speed = 15.f;
 }
 
 Level::~Level()
@@ -23,14 +25,14 @@ void Level::handleInput(float dt)
 // Update game objects
 void Level::update(float dt)
 {
-	
+	rect.move(speed * dt, 0);
 }
 
 // Render level
 void Level::render()
 {
 	beginDraw();
-
+	window->draw(rect);
 	endDraw();
 }
 
