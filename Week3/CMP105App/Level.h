@@ -19,6 +19,11 @@ public:
 	float speed;
 	bool ReverseDirection;
 	sf::RectangleShape playerRect;
+	sf::CircleShape circ;
+	bool circReverseX;
+	bool circReverseY;
+	float distanceToMoveCircX;
+	float distanceToMoveCircY;
 
 private:
 	// Default functions for rendering to the screen.

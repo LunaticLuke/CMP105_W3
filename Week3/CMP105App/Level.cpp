@@ -11,8 +11,9 @@ Level::Level(sf::RenderWindow* hwnd, Input* in)
 	speed = 70.f;
 	playerRect.setFillColor(sf::Color::Red);
 	playerRect.setSize(sf::Vector2f(30, 30));
-	playerRect.setPosition(1, 1);
-	
+	circ.setFillColor(sf::Color::Green);
+	circ.setRadius(25);
+
 }
 
 Level::~Level()
@@ -24,7 +25,7 @@ Level::~Level()
 void Level::handleInput(float dt)
 {
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		
 		if (playerRect.getPosition().x + playerRect.getGlobalBounds().width <= window->getSize().x)
@@ -33,14 +34,14 @@ void Level::handleInput(float dt)
 			playerRect.move(dt * speed, 0);
 		}
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		if (playerRect.getPosition().x >= 0)
 		{
 			playerRect.move(-speed * dt, 0);
 		}
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
 		
 		if (playerRect.getPosition().y >= 0)
@@ -48,9 +49,9 @@ void Level::handleInput(float dt)
 			playerRect.move(0, dt * -speed);
 		}
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-		std::cout << "Down Pressed\n";
+		
 	if (playerRect.getPosition().y + playerRect.getGlobalBounds().height <= window->getSize().y)
 		{
 			playerRect.move(0, dt * speed);
@@ -62,11 +63,13 @@ void Level::handleInput(float dt)
 // Update game objects
 void Level::update(float dt)
 {
+#pragma region RectangleUpdate
 	if (rect.getPosition().x + rect.getGlobalBounds().width >= window->getSize().x)
 	{
 		ReverseDirection = true;
-		
-	}else if (rect.getPosition().x <= 0)
+
+	}
+	else if (rect.getPosition().x <= 0)
 	{
 		ReverseDirection = false;
 	}
@@ -78,6 +81,45 @@ void Level::update(float dt)
 	{
 		rect.move(speed * dt, 0);
 	}
+#pragma endregion
+
+#pragma region CircleUpdate
+	if (circ.getPosition().x + circ.getGlobalBounds().width >= window->getSize().x)
+	{
+		circReverseX = true;
+
+	}
+	else if (rect.getPosition().x <= 0)
+	{
+		circReverseX = false;
+	}
+	if (circ.getPosition().y + circ.getGlobalBounds().height >= window->getSize().y)
+	{
+		circReverseY = true;
+
+	}
+	else if (circ.getPosition().y <= 0)
+	{
+		circReverseY = false;
+	}
+	if (circReverseX)
+	{
+		distanceToMoveCircX = -speed * dt;
+	}
+	else
+	{
+		distanceToMoveCircX = speed * dt;
+	}if (circReverseY)
+	{
+		distanceToMoveCircY = -speed * dt;
+	}
+	else
+	{
+		distanceToMoveCircY = speed * dt;
+	}
+	circ.move(distanceToMoveCircX, distanceToMoveCircY);
+#pragma endregion
+
 }
 
 // Render level
@@ -85,6 +127,7 @@ void Level::render()
 {
 	beginDraw();
 	window->draw(rect);
+	window->draw(circ);
 	window->draw(playerRect);
 	endDraw();
 }
