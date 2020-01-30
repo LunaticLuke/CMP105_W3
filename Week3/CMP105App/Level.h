@@ -17,6 +17,7 @@ public:
 	void render();
 	sf::RectangleShape rect;
 	float speed;
+	bool ReverseDirection;
 
 private:
 	// Default functions for rendering to the screen.
